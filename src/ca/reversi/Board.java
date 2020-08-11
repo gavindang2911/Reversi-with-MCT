@@ -7,30 +7,35 @@ public class Board {
     private final char BLACK = 'B';
     private final char WHITE = 'W';
     private final char EMPTY = '_';
-    public int whiteTotal, blackTotal, rest;
+
+    public int getWhiteTotal() {
+        return whiteTotal;
+    }
+
+    public int getBlackTotal() {
+        return blackTotal;
+    }
+
+    public int getRest() {
+        return rest;
+    }
+
+    private int whiteTotal, blackTotal, rest;
 
     private char[][] board;
 
     public Board() {
         board = new char[BOARD_SIZE][BOARD_SIZE];
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                board[i][j] = EMPTY;
+            }
+        }
         board[3][3] = WHITE;
         board[4][4] = WHITE;
         board[3][4] = BLACK;
         board[4][3] = BLACK;
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                if ((i == 3 && j == 3) || (i == 4 && j == 4)) {
-                    board[i][j] = WHITE;
-                }
-                if (i == 3 && j == 4) {
-                    board[i][j] = BLACK;
-                }
-                if (i == 4 && j == 3) {
-                    board[i][j] = BLACK;
-                }
-                board[i][j] = EMPTY;
-            }
-        }
     }
 
     /**
@@ -46,8 +51,8 @@ public class Board {
     }
 
     public void displayBoard(Board board){              //Print the whole current board
-        System.out.print("\n\n");
-        System.out.print("A B C D E G G H");
+        System.out.print("\n  ");
+        System.out.print("A B C D E F G H");
         System.out.println();
         for(int row = 0; row < BOARD_SIZE; row++){
             System.out.print((row+1) + " ");
@@ -59,7 +64,7 @@ public class Board {
         System.out.println();
     }
 
-    private HashSet<Move> getValidateMoveList(char currentPlayer, char opponentPlayer) {
+    public HashSet<Move> getValidateMoveList(char currentPlayer, char opponentPlayer) {
         HashSet<Move> validMoveList = new HashSet<>();
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int column = 0 ; column < BOARD_SIZE; column++) {
@@ -166,7 +171,7 @@ public class Board {
                     // LEFT ,-
                     currentRow = row;
                     currentColumn = column;
-                    if(currentColumn - 1 >= 0 && board[row][currentColumn-1] == EMPTY){            
+                    if(currentColumn - 1 >= 0 && board[row][currentColumn-1] == EMPTY){
                         currentColumn++;
                         while(currentColumn < BOARD_SIZE - 1 && board[row][currentColumn] == opponentPlayer) {
                             currentColumn++;
@@ -182,7 +187,7 @@ public class Board {
         return validMoveList;
     }
 
-    public void displayLocation(HashSet<Move> playerList, char currentPlayer, char opponentPlayer){
+    public void displayNextValidMoves(HashSet<Move> playerList){
         for(Move p : playerList)
             board[p.getX()][p.getY()] = '*';
         displayBoard(this);
@@ -193,8 +198,8 @@ public class Board {
     public void move(Move move, char currentPlayer, char opponentPlayer) {
         int row = move.getX();
         int column = move.getY();
-        int currentRow = move.getX();
-        int currentColumn = move.getY();
+        int currentRow = row;
+        int currentColumn = column;
         this.board[row][column] = currentPlayer;
 
         // UP RIGHT TO LEFT - -
@@ -207,7 +212,7 @@ public class Board {
             }
             if (currentRow <= BOARD_SIZE - 1 && currentColumn <= BOARD_SIZE - 1 && board[currentRow][currentColumn] == currentPlayer) {
                 while (currentRow != row + 1 && currentColumn != column + 1) {
-                    board[currentRow-1][currentColumn-1] = currentPlayer;
+                    board[--currentRow][--currentColumn] = currentPlayer;
                 }
             }
         }
@@ -216,6 +221,7 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if (currentRow + 1 <= BOARD_SIZE - 1 && currentColumn - 1 >=0 && board[currentRow+1][currentColumn-1] == opponentPlayer){
+
             currentRow++;
             currentColumn--;
             while (currentRow < BOARD_SIZE - 1 && currentColumn > 0 && board[currentRow][currentColumn] == opponentPlayer) {
@@ -224,7 +230,7 @@ public class Board {
             }
             if (currentRow<=BOARD_SIZE - 1 && currentColumn>=0 && board[currentRow][currentColumn] == currentPlayer) {
                 while(currentRow != row+1 && currentColumn!=column-1){
-                    board[currentRow-1][currentColumn+1] = currentPlayer;
+                    board[--currentRow][++currentColumn] = currentPlayer;
                 }}
         }
 
@@ -232,6 +238,7 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if (currentRow - 1 >= 0 && currentColumn + 1 <= BOARD_SIZE - 1 && board[currentRow-1][currentColumn+1] == opponentPlayer){
+
             currentRow--;
             currentColumn++;
             while (currentRow > 0 && currentColumn < BOARD_SIZE - 1 && board[currentRow][currentColumn] == opponentPlayer) {
@@ -240,7 +247,7 @@ public class Board {
             }
             if (currentRow >= 0 && currentColumn <= BOARD_SIZE - 1 && board[currentRow][currentColumn] == currentPlayer) {
                 while (currentRow != row - 1 && currentColumn != column + 1) {
-                    board[currentRow+1][currentColumn-1] = currentPlayer;
+                    board[++currentRow][--currentColumn-1] = currentPlayer;
                 }
             }
         }
@@ -249,6 +256,7 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if (currentRow - 1 >= 0 && currentColumn - 1 >= 0 && board[currentRow-1][currentColumn-1] == opponentPlayer) {
+
             currentRow--;
             currentColumn--;
             while (currentRow > 0 && currentColumn > 0 && board[currentRow][currentColumn] == opponentPlayer) {
@@ -257,7 +265,7 @@ public class Board {
             }
             if (currentRow >= 0 && currentColumn >= 0 && board[currentRow][currentColumn] == currentPlayer) {
                 while (currentRow != row - 1 && currentColumn != column - 1) {
-                    board[currentRow+1][currentColumn+1] = currentPlayer;
+                    board[++currentRow][++currentColumn] = currentPlayer;
                 }
             }
         }
@@ -266,13 +274,14 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if(currentRow + 1 <= BOARD_SIZE - 1 && board[currentRow+1][column] == opponentPlayer){
+
             currentRow++;
             while(currentRow < BOARD_SIZE - 1 && board[currentRow][column] == opponentPlayer) {
                 currentRow++;
             }
             if(currentRow <= BOARD_SIZE - 1 && board[currentRow][column] == currentPlayer) {
                 while(currentRow != row + 1) {
-                    board[currentRow-1][column] = currentPlayer;
+                    board[--currentRow][column] = currentPlayer;
                 }
             }
         }
@@ -281,13 +290,14 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if(currentRow - 1 >=0 && board[currentRow-1][column] == opponentPlayer){
+
             currentRow--;
             while(currentRow > 0 && board[currentRow][column] == opponentPlayer) {
                 currentRow--;
             }
             if(currentRow >= 0 && board[currentRow][currentColumn] == currentPlayer) {
                 while(currentRow != row - 1) {
-                    board[currentRow+1][column] = currentPlayer;
+                    board[++currentRow][column] = currentPlayer;
                 }
             }
         }
@@ -297,13 +307,14 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if(currentColumn -1 >= 0 && board[row][currentColumn-1] == opponentPlayer){
+
             currentColumn--;
             while(currentColumn > 0 && board[row][currentColumn] == opponentPlayer) {
                 currentColumn--;
             }
             if(currentColumn >= 0 && board[row][currentColumn] == currentPlayer) {
                 while(currentColumn != column - 1) {
-                    board[row][currentColumn+1] = currentPlayer;
+                    board[row][++currentColumn] = currentPlayer;
                 }
             }
         }
@@ -312,13 +323,14 @@ public class Board {
         currentRow = move.getX();
         currentColumn = move.getY();
         if(currentColumn + 1 <= BOARD_SIZE - 1 && board[row][currentColumn+1] == opponentPlayer){
+
             currentColumn++;
             while(currentColumn < BOARD_SIZE - 1 && board[row][currentColumn] == opponentPlayer) {
                 currentColumn++;
             }
-            if(currentColumn <= BOARD_SIZE - 1 && board[row][currentColumn] == currentPlayer) {
+            if(currentColumn <= BOARD_SIZE - 1 && board[currentRow][currentColumn] == currentPlayer) {
                 while(currentColumn != column + 1) {
-                    board[row][currentColumn-1] = currentPlayer;
+                    board[currentRow][--currentColumn] = currentPlayer;
                 }
             }
         }
@@ -328,8 +340,9 @@ public class Board {
     /**
      * Counts the number of black and white pieces and determines a winner. Doesn't check if the game has actually ended.
      * @return array [nbrBlack, nbrWhite, winner]
+     * 1 white, 2 black, 0 draw
      */
-    public int[] getResult() {
+    public int getResult() {
         whiteTotal = 0;
         blackTotal = 0;
         rest = 0;
@@ -344,7 +357,59 @@ public class Board {
                 }
             }
         }
-        return new int[] {whiteTotal,blackTotal};
+        int winner = -1;
+        if (rest == 0) {
+            if (blackTotal < whiteTotal) {
+                winner = 1;
+            } else if (blackTotal > whiteTotal) {
+                winner = 2;
+            }
+            else {
+                winner = 0;
+            }
+        }
+
+        if (blackTotal == 0 || whiteTotal == 0) {
+
+            if (blackTotal != 0) {
+                winner = 2;
+            } else if (whiteTotal != 0) {
+                winner = 1;
+            }
+        }
+
+        if(getValidateMoveList('W','B').isEmpty() && getValidateMoveList('B', 'W').isEmpty()){
+
+            if (blackTotal < whiteTotal) {
+                winner = 1;
+            } else if (blackTotal > whiteTotal) {
+                winner = 2;
+            }
+            else {
+                winner = 0;
+            }
+        }
+        return winner;
+    }
+
+    public int checkTheXCoordinate(char x){             //check the legality of the input
+        if ((Character.toLowerCase(x) == 'A') || (Character.toUpperCase(x) == 'A'))
+            return 0;
+        else if ((Character.toLowerCase(x) == 'B') || (Character.toUpperCase(x) == 'B'))
+            return 1;
+        else if ((Character.toLowerCase(x) == 'C') || (Character.toUpperCase(x) == 'C'))
+            return 2;
+        else if ((Character.toLowerCase(x) == 'D') || (Character.toUpperCase(x) == 'D'))
+            return 3;
+        else if ((Character.toLowerCase(x) == 'E') || (Character.toUpperCase(x) == 'E'))
+            return 4;
+        else if ((Character.toLowerCase(x) == 'F') || (Character.toUpperCase(x) == 'F'))
+            return 5;
+        else if ((Character.toLowerCase(x) == 'G') || (Character.toUpperCase(x) == 'G'))
+            return 6;
+        else if ((Character.toLowerCase(x) == 'H') || (Character.toUpperCase(x) == 'H'))
+            return 7;
+        return -1; // Illegal move received
     }
 
 }
