@@ -1,3 +1,4 @@
+// A class for Reversi
 package ca.reversi;
 
 import ca.AI.AI;
@@ -31,11 +32,11 @@ public class Reversi {
                     break;
                 } else if (gameResult == 1) {
                     System.out.println("White wins: " + board.getWhiteTotal() + " to " + board.getBlackTotal());
-                    Main.white_win++;
+                    Main.point_white++;
                     break;
                 } else if (gameResult == 2) {
                     System.out.println("Black wins: " + board.getBlackTotal() + ":" + board.getWhiteTotal());
-                    Main.black_win++;
+                    Main.point_black++;
                     break;
                 }
                 break;
@@ -66,11 +67,11 @@ public class Reversi {
                     break;
                 } else if (gameResult == 1) {
                     System.out.println("White wins: " + board.getWhiteTotal() + " to " + board.getBlackTotal());
-                    Main.white_win++;
+                    Main.point_white++;
                     break;
                 } else if (gameResult == 2) {
                     System.out.println("Black wins: " + board.getBlackTotal() + ":" + board.getWhiteTotal());
-                    Main.black_win++;
+                    Main.point_black++;
                     break;
                 }
                 break;

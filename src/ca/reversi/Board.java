@@ -1,13 +1,16 @@
+// A class used for making Board For Reversi
 package ca.reversi;
 
 import java.util.HashSet;
 
 public class Board {
+    //Variabes Declaired
     private final int BOARD_SIZE = 8;
     private final char BLACK = 'B';
     private final char WHITE = 'W';
     private final char EMPTY = '_';
 
+    // Getter functions
     public int getWhiteTotal() {
         return whiteTotal;
     }
@@ -23,7 +26,7 @@ public class Board {
     private int whiteTotal, blackTotal, rest;
 
     private char[][] board;
-
+    // Constructor
     public Board() {
         board = new char[BOARD_SIZE][BOARD_SIZE];
 
@@ -49,7 +52,7 @@ public class Board {
             this.board[i] = copyBoard[i].clone();
         }
     }
-
+   //A helper function show the board
     public void displayBoard(Board board){              //Print the whole current board
         System.out.print("\n  ");
         System.out.print("A B C D E F G H");
@@ -187,6 +190,7 @@ public class Board {
         return validMoveList;
     }
 
+    // A helper function for show coming moves
     public void displayNextValidMoves(HashSet<Move> playerList){
         for(Move p : playerList)
             board[p.getX()][p.getY()] = '*';
@@ -391,7 +395,7 @@ public class Board {
         }
         return winner;
     }
-
+   // A helper function for checking x
     public int checkTheXCoordinate(char x){             //check the legality of the input
         if ((Character.toLowerCase(x) == 'A') || (Character.toUpperCase(x) == 'A'))
             return 0;

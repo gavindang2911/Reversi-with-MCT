@@ -1,9 +1,12 @@
+// A class for Move
 package ca.reversi;
 
 public class Move {
+    // Variables discovered
     private int x;
     private int y;
     public int win,lose,draw;
+
     public Move(int x, int y){
         this.x = x;
         this.y = y;

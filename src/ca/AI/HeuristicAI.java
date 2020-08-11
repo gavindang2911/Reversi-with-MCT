@@ -1,3 +1,4 @@
+// Heuristic AI used for version 2
 package ca.AI;
 
 import ca.reversi.Board;
@@ -9,7 +10,7 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class HeuristicAI {
-
+    // Variable used for AI
     private static HashSet<Move> moveList = new HashSet<>();
     private static final char coordinateX[] = new char[] {'A','B','C','D','E','F','G','H'};
     private static  final int weightedBoard [][] = new int[] [] {
@@ -22,7 +23,7 @@ public class HeuristicAI {
             {-1, -10 , 1, 1, 1, 1, -10, -1,},
             {100, -1, 5, 2, 2, 5, -1, 100,},
     };
-
+ // Helper Function Used for checking what will be the next move
     public static Move determineNextMove() {
         Move move = null;
         double highestScore = 0;
@@ -36,7 +37,7 @@ public class HeuristicAI {
         System.out.println("The White player heuristic take the move at: "+ coordinateX[move.getY()]+(move.getX()+1));
         return move;
     }
-
+// Helper Function Used for getting next move
     public static void placeNextMove(Board board) {
         Move nextMove = new Move(-1, -1);
         moveList = board.getValidateMoveList('W','B');

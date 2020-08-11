@@ -1,4 +1,4 @@
-
+// AI class Used for Version 1
 package ca.AI;
 import ca.reversi.Board;
 import ca.reversi.Move;
