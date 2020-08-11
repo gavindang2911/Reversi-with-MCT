@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("--------- R E V E R S I ---------- \n");
-        System.out.println("Please choose an option:\n1.AI (Black) vs Player (White)\n2.AI (non-heuristic-Black) vs AI (heuristic-White)");
+        System.out.println("Choose from given menu:\n1.AI (Black) vs Player (White)\n2.AI (non-heuristic-Black) vs AI (heuristic-White)");
         int userInput;
         while (true) {
             System.out.print("> ");
