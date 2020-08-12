@@ -42,7 +42,7 @@ public class Reversi {
                 break;
             }
 
-            if(validMovesBlack.isEmpty()){
+            if (validMovesBlack.isEmpty()) {
                 System.out.println("There is no valid moves for Black player, Switch to White player");
             } else {
                 Board newBoard = new Board(board);
@@ -52,7 +52,7 @@ public class Reversi {
                 nextMove = nonHeuristicAI.determineNextMove();
                 board.move(nextMove, 'B', 'W');
                 gameResult = board.getResult();
-                System.out.println("\nBlack: "+ board.getBlackTotal()+" White: "+board.getWhiteTotal());
+                System.out.println("\nBlack: " + board.getBlackTotal() + " White: " + board.getWhiteTotal());
             }
 
             validMovesWhite = board.getValidateMoveList('W', 'B');
@@ -77,7 +77,7 @@ public class Reversi {
                 break;
             }
 
-            if(validMovesWhite.isEmpty()){
+            if (validMovesWhite.isEmpty()) {
                 System.out.println("There is no valid moves for White player, Switch to White player");
             } else {
                 if (twoAIPlayers == 2) {
@@ -104,7 +104,7 @@ public class Reversi {
 
                 board.move(nextMove, 'W', 'B');
                 gameResult = board.getResult();
-                System.out.println("\nWhite: "+ board.getWhiteTotal() +" Black: "+board.getBlackTotal());
+                System.out.println("\nWhite: " + board.getWhiteTotal() + " Black: " + board.getBlackTotal());
             }
 
 

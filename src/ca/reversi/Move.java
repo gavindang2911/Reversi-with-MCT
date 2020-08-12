@@ -2,17 +2,17 @@
 package ca.reversi;
 
 public class Move {
+    public int win, lose, draw;
     // Variables discovered
     private int x;
     private int y;
-    public int win,lose,draw;
 
-    public Move(int x, int y){
+    public Move(int x, int y) {
         this.x = x;
         this.y = y;
-        win=0;
-        lose=0;
-        draw=0;
+        win = 0;
+        lose = 0;
+        draw = 0;
     }
 
     public int getX() {
@@ -32,17 +32,17 @@ public class Move {
     }
 
     @Override
-    public String toString(){
-        return "["+x+", "+y+"]";
+    public String toString() {
+        return "[" + x + ", " + y + "]";
     }
 
     @Override
-    public boolean equals(Object o){
-        return o.hashCode()==this.hashCode();
+    public boolean equals(Object o) {
+        return o.hashCode() == this.hashCode();
     }
 
     @Override
     public int hashCode() {
-        return Integer.parseInt(x+""+y);
+        return Integer.parseInt(x + "" + y);
     }
 }

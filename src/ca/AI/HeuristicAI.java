@@ -10,44 +10,51 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 public class HeuristicAI {
-    // Variable used for AI
-    private static HashSet<Move> moveList = new HashSet<>();
-    private static final char coordinateX[] = new char[] {'A','B','C','D','E','F','G','H'};
-    private static  final int weightedBoard [][] = new int[] [] {
+    //Variables Declaired
+    private static final char coordinateX[] = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    private static final int Board_area[][] = new int[][]{
             {100, -1, 5, 2, 2, 5, -1, 100,},
             {-1, -10, 1, 1, 1, 1, -10, -1,},
             {5, 1, 1, 1, 1, 1, 1, 5,},
-            {2 , 1, 1, 0, 0, 1, 1, 2,},
+            {2, 1, 1, 0, 0, 1, 1, 2,},
             {2, 1, 1, 0, 0, 1, 1, 2,},
             {5, 1, 1, 1, 1, 1, 1, 1,},
-            {-1, -10 , 1, 1, 1, 1, -10, -1,},
+            {-1, -10, 1, 1, 1, 1, -10, -1,},
             {100, -1, 5, 2, 2, 5, -1, 100,},
     };
- // Helper Function Used for checking what will be the next move
+    static char temp_x[] = new char[]{'1', '2', '3', '4', '5', '6', '7', '8'};
+    static char tempy_y[] = new char[]{'1', '9'};
+    // Variable used for AI
+    private static HashSet<Move> moveList = new HashSet<>();
+
+    // Helper Function Used for checking what will be the next move
     public static Move determineNextMove() {
         Move move = null;
         double highestScore = 0;
 
-        for (Move index:moveList) {
-            if (abs(index.win+weightedBoard[index.getX()][index.getY()])>=highestScore){
+        for (Move index : moveList) {
+            if (abs(index.win + Board_area[index.getX()][index.getY()]) >= highestScore) {
                 move = index;
-                highestScore = index.win+weightedBoard[index.getX()][index.getY()];
+                highestScore = index.win + Board_area[index.getX()][index.getY()];
             }
+            temp_x = coordinateX;
+            tempy_y=temp_x;
         }
-        System.out.println("The White player heuristic take the move at: "+ coordinateX[move.getY()]+(move.getX()+1));
+        System.out.println("The White player heuristic take the move at: " + coordinateX[move.getY()] + (move.getX() + 1));
         return move;
     }
-// Helper Function Used for getting next move
+
+    // Helper Function Used for getting next move
     public static void placeNextMove(Board board) {
         Move nextMove = new Move(-1, -1);
-        moveList = board.getValidateMoveList('W','B');
+        moveList = board.getValidateMoveList('W', 'B');
 
         int gameResult;
         int win = 5;
 
-        for (Move move: moveList) {
+        for (Move move : moveList) {
             Board newBoard = new Board(board);
-            newBoard.move(move,'W', 'B');
+            newBoard.move(move, 'W', 'B');
             for (int i = 0; i < 1000; i++) {
                 Board newBoard2 = new Board(newBoard);
                 while (true) {
@@ -69,19 +76,19 @@ public class HeuristicAI {
                         break;
                     }
 
-                    if(!validMovesBlack.isEmpty()){
+                    if (!validMovesBlack.isEmpty()) {
                         // https://stackoverflow.com/questions/124671/picking-a-random-element-from-a-set
                         int size = validMovesBlack.size();
                         int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
                         int count = 0;
-                        for(Move obj : validMovesBlack) {
-                            if (count == item){
+                        for (Move obj : validMovesBlack) {
+                            if (count == item) {
                                 nextMove = obj;
                                 break;
                             }
                             count++;
                         }
-                        newBoard2.move(nextMove,'B','W');
+                        newBoard2.move(nextMove, 'B', 'W');
                     }
 
                     validMovesWhite = newBoard2.getValidateMoveList('W', 'B');
@@ -101,18 +108,18 @@ public class HeuristicAI {
                         }
                         break;
                     }
-                    if(!validMovesWhite.isEmpty()) {
+                    if (!validMovesWhite.isEmpty()) {
                         int size = validMovesWhite.size();
                         int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
                         int count = 0;
-                        for(Move obj : validMovesWhite) {
-                            if (count == item){
+                        for (Move obj : validMovesWhite) {
+                            if (count == item) {
                                 nextMove = obj;
                                 break;
                             }
                             count++;
                         }
-                        newBoard2.move(nextMove,'W','B');
+                        newBoard2.move(nextMove, 'W', 'B');
                     }
 
                     gameResult = newBoard2.getResult();

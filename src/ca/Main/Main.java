@@ -56,7 +56,7 @@ public class Main {
             Board b = new Board();
             startGame(b, userInput);
         }
-        System.out.println("End Result: White " + point_white + "-" + point_black + " Black\nDraw: "+ draw);
+        System.out.println("End Result: White " + point_white + "-" + point_black + " Black\nDraw: " + draw);
         System.out.print("Thanks for Playing, Continued---");
 
     }
